@@ -69,7 +69,7 @@ async def wrapper(ans: Message):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
     if data[ "rabota" ][ str( ans.from_id ) ] == "0":
-        if data[ "ok1" ][ str( ans.from_id ) ] < "50":
+        if data[ "ok1" ][ str( ans.from_id ) ] > "50":
             await ans(f"Вы устроились на работу продавцом!")
             data[ "rabota" ][ str( ans.from_id ) ] = 2
             json.dump(data, open("data.json", "w"))
