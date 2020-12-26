@@ -22,7 +22,7 @@ def reg( ans ):
         data[ "id" ][ str( ans.from_id ) ] = str( len( data[ "user" ] ) )
         json.dump( data, open( "data.json", "w" ) )
 
-@bot.on.chat_message(text=["Проф", "Профиль", "проф", "профиль"])
+@bot.on.chat_message(text=["Проф", "Профиль", "проф", "профиль", "я", "Я"])
 async def wrapper(ans: Message):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
