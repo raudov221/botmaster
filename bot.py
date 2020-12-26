@@ -74,7 +74,7 @@ async def wrapper(ans: Message):
     if data[ "rabota" ][ str( ans.from_id ) ] == "0":
         if data[ "ok1" ][ str( ans.from_id ) ] < "50":
             await ans(f"Вы устроились на работу продавцом!")
-            data[ "rabota" ][ str( ans.from_id ) ] = int( data[ "rabota" ][ str( ans.from_id ) ] ) = 2
+            data[ "rabota" ][ str( ans.from_id ) ] = 2
             json.dump(data, open("data.json", "w"))
         else:
             await ans(f"Вы не отработали 50 заказов!")
