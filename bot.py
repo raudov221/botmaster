@@ -142,12 +142,4 @@ async def wrapper(ans: Message, sum, stak):
                 data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) - int(sum)
                 json.dump(data, open("data.json", "w"))
 
-@bot.on.chat_message(text=["<da>"])
-async def wrapper(ans: Message, da):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
-        data["rabota1"][str(ans.from_id)] = "Без работный"
-        json.dump(data, open("data.json", "w"))
-
 bot.run_polling( skip_updates = False )
