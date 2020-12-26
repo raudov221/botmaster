@@ -19,6 +19,7 @@ def reg( ans ):
         data[ "rabota" ][ str( ans.from_id ) ] = "0"
         data[ "nick"][ str( ans.from_id ) ] = ""
         data[ "rabota1" ][ str( ans.from_id ) ] = "0"
+        data[ "ok1" ][ str( ans.from_id ) ] = "0"
         data[ "id" ][ str( ans.from_id ) ] = str( len( data[ "user" ] ) )
         json.dump( data, open( "data.json", "w" ) )
 
@@ -49,8 +50,47 @@ async def wrapper(ans: Message):
     else:
         data[ "balance" ][ str( ans.from_id ) ] = int( data[ "balance" ][ str( ans.from_id ) ] ) + 500
         await ans(f"Вы успешно заработали 500$\n\nВаш баланс: {data['balance'][str(ans.from_id)]}")
+        data[ "ok1" ][ str( ans.from_id ) ] = int( data[ "ok1" ][ str( ans.from_id ) ] ) + 1
         json.dump(data, open("data.json", "w"))
-
+               
+@bot.on.chat_message(text=["Продавец", "продавец", "прод", "Прод"])
+async def wrapper(ans: Message):
+    reg(ans)
+    data = json.load( open( "data.json", "r" ) )
+    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
+        await ans(f"Вы не устроены на работу продавец!")
+    if data[ "rabota" ][ str( ans.from_id ) ] == "1":
+        await ans(f"Вы устроены на работу такси! Для увольнения напиши уволиться!")
+    if data[ "rabota" ][ str( ans.from_id ) ] == "2":
+        await ans(f"Вы отработали смену и получили 1000$! Ваш баланс: {data['balance'][str(ans.from_id)]}")
+        data[ "balance" ][ str( ans.from_id ) ] = int( data[ "balance" ][ str( ans.from_id ) ] ) + 1000
+        data[ "ok1" ][ str( ans.from_id ) ] = int( data[ "ok1" ][ str( ans.from_id ) ] ) + 1
+        json.dump(data, open("data.json", "w"))
+                  
+@bot.on.chat_message(text=["Устроиться 2", "устроиться 2"])
+async def wrapper(ans: Message):
+    reg(ans)
+    data = json.load( open( "data.json", "r" ) )
+    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
+        if data[ "ok1" ][ str( ans.from_id ) ] < "50":
+            await ans(f"Вы устроились на работу продавцом!")
+            data[ "rabota" ][ str( ans.from_id ) ] = int( data[ "rabota" ][ str( ans.from_id ) ] ) = 2
+            json.dump(data, open("data.json", "w"))
+        else:
+            await ans(f"Вы не отработали 50 заказов!")
+    else:
+         await ans(f"Вы уже устроины на работу!")
+                  
+@bot.on.chat_message(text=["уволиться", "Уволиться"])
+async def wrapper(ans: Message):
+    reg(ans)
+    data = json.load( open( "data.json", "r" ) )
+    if data[ "rabota" ][ str( ans.from_id ) ] < "1":
+        await ans(f"Вы уволились с работы!")
+        json.dump(data, open("data.json", "w"))
+    else:
+        await ans(f"Вы без работный!")
+                  
 @bot.on.chat_message(text=["казино <sum>", "Казино <sum>"])
 async def wrapper(ans: Message, sum):
     reg(ans)
