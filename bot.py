@@ -1,6 +1,5 @@
 from vkbottle.bot import Bot, Message
 from vkbottle.keyboard import Keyboard, Text
-from googlesearch import search
 import random
 import random as r
 import json
