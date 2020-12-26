@@ -35,7 +35,7 @@ async def wrapper(ans: Message):
     data = json.load( open( "data.json", "r" ) )
     if data[ "rabota" ][ str( ans.from_id ) ] == "0":
         await ans(f"Вы начали работать таксистом!")
-        data[ "rabota" ][ str( ans.from_id ) ] = int( data[ "rabota" ][ str( ans.from_id ) ] ) + 1
+        data[ "rabota" ][ str( ans.from_id ) ] = 1
         data["rabota1"][str(ans.from_id)] = "Таксист"
         json.dump(data, open("data.json", "w"))
     else:
