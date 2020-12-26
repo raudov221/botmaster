@@ -62,7 +62,7 @@ async def wrapper(ans: Message):
 async def wrapper(ans: Message):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
-    await ans(f"Для того что бы устроиться на одну из работ надо написать: Устроиться номер_работы\n\n1.Таксист\т2.Продавец")
+    await ans(f"Для того что бы устроиться на одну из работ надо написать: Устроиться номер_работы\n\n1.Таксист\n2.Продавец")
                   
 @bot.on.chat_message(text=["Устроиться 2", "устроиться 2"])
 async def wrapper(ans: Message):
