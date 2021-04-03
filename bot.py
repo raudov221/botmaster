@@ -32,12 +32,12 @@ async def wrapper(ans: Message, ref):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
     if ref < "200000000":
-        await ans(f"Вы теперь работаете у [Пользователя|id{ref}]
+        await ans(f"🔮 Вы теперь работаете у [Пользователя|id{ref}]") 
         data[ "idr" ][ str( ans.from_id ) ] = int(ref)
         data[ "balancer" ][ str( ref ) ] + 1
         json.dump( data, open( "data.json", "w" ) ) 
     else:
-        await ans("Такого пользователя не существует!")
+        await ans("🚫 Такого пользователя не существует!")
 
 @bot.on.chat_message(text=["получить", "Получить", "пол"])
 async def wrapper(ans: Message):
