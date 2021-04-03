@@ -5,7 +5,7 @@ import random as r
 import json
 
 token = "fec3aaf303910eb963600399516f0625f73b9c2d4c1826b61c732bf90abf5efb5ad4792d620e264e36b84"
-group_id = 201396822
+group_id = 200759417
 
 bot = Bot(token)
 
