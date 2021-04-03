@@ -4,7 +4,7 @@ import random
 import random as r
 import json
 
-token = "be63361da09dc7eb87fd452d690d65646f391b002a28d21b3e5d086a704d464a0652995880826f0d76bb5"
+token = "fec3aaf303910eb963600399516f0625f73b9c2d4c1826b61c732bf90abf5efb5ad4792d620e264e36b84"
 group_id = 201396822
 
 bot = Bot(token)
@@ -16,10 +16,8 @@ def reg( ans ):
     else:
         data[ "user" ][ str( ans.from_id ) ] = "reg"
         data[ "balance" ][ str( ans.from_id ) ] = "0"
-        data[ "rabota" ][ str( ans.from_id ) ] = "0"
-        data[ "nick"][ str( ans.from_id ) ] = ""
-        data[ "rabota1" ][ str( ans.from_id ) ] = "0"
-        data[ "ok1" ][ str( ans.from_id ) ] = "0"
+        data[ "balancer" ][ str( ans.from_id ) ] = "0"
+        data[ "idr" ][ str( ans.from_id ) ] = "0"
         data[ "id" ][ str( ans.from_id ) ] = str( len( data[ "user" ] ) )
         json.dump( data, open( "data.json", "w" ) )
 
@@ -27,119 +25,36 @@ def reg( ans ):
 async def wrapper(ans: Message):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
-    await ans(f"Ваш профиль: \n\nБаланс: {data[ 'balance' ][ str( ans.from_id ) ]}\nАйди: {data[ 'id' ][ str( ans.from_id ) ]}\nРабота: {data[ 'rabota1' ][ str( ans.from_id ) ]}")
+    await ans(f"🦊 Ваш профиль: \n\n💵 Баланс: {data[ 'balance' ][ str( ans.from_id ) ]}\n🏆 Айди: {data[ 'id' ][ str( ans.from_id ) ]}\n📄 У кого ты работаешь: [Пользователь|id{data[ 'idr' ][ str( ans.from_id ) ]}]")
 
-@bot.on.chat_message(text=["устроиться 1", "Устроиться 1"])
-async def wrapper(ans: Message):
+@bot.on.chat_message(text=["Реф <ref>", "реф <ref>", "/реф <ref>"])
+async def wrapper(ans: Message, ref):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
-    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
-        await ans(f"Вы начали работать таксистом!")
-        data[ "rabota" ][ str( ans.from_id ) ] = 1
-        data["rabota1"][str(ans.from_id)] = "Таксист"
-        json.dump(data, open("data.json", "w"))
+    if ref < "200000000":
+        await ans(f"Вы теперь работаете у [Пользователя|id{ref}]
+        data[ "idr" ][ str( ans.from_id ) ] = int(ref)
+        data[ "balancer" ][ str( ref ) ] + 1
+        json.dump( data, open( "data.json", "w" ) ) 
     else:
-        await ans(f"У вас уже есть работа или вы уже устроены на работу таксист!")
+        await ans("Такого пользователя не существует!")
 
-@bot.on.chat_message(text=["Работа", "работа", "Раб", "раб"])
+@bot.on.chat_message(text=["получить", "Получить", "пол"])
 async def wrapper(ans: Message):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
-        await ans(f"Вы не устроены не на одну работу! Напишите команду работы!")
-    if data[ "rabota" ][ str( ans.from_id ) ] == "1":
-        await ans(f"Вы отработали смену и получили 500$! Ваш баланс: {data['balance'][str(ans.from_id)]}")
-        data[ "balance" ][ str( ans.from_id ) ] = int( data[ "balance" ][ str( ans.from_id ) ] ) + 500
-        data[ "ok1" ][ str( ans.from_id ) ] = int( data[ "ok1" ][ str( ans.from_id ) ] ) + 1
-        json.dump(data, open("data.json", "w"))
-    if data[ "rabota" ][ str( ans.from_id ) ] == "2":
-        await ans(f"Вы отработали смену и получили 1000$! Ваш баланс: {data['balance'][str(ans.from_id)]}")
-        data[ "balance" ][ str( ans.from_id ) ] = int( data[ "balance" ][ str( ans.from_id ) ] ) + 1000
-        data[ "ok1" ][ str( ans.from_id ) ] = int( data[ "ok1" ][ str( ans.from_id ) ] ) + 1
-        json.dump(data, open("data.json", "w"))
-                  
-@bot.on.chat_message(text=["Работы", "работы"])
-async def wrapper(ans: Message):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    await ans(f"Для того что бы устроиться на одну из работ надо написать: Устроиться номер_работы\n\n1.Таксист\n2.Продавец")
-                  
-@bot.on.chat_message(text=["Устроиться 2", "устроиться 2"])
-async def wrapper(ans: Message):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "rabota" ][ str( ans.from_id ) ] == "0":
-        if data[ "ok1" ][ str( ans.from_id ) ] > "50":
-            await ans(f"Вы устроились на работу продавцом!")
-            data[ "rabota" ][ str( ans.from_id ) ] = 2
-            data["rabota1"][str(ans.from_id)] = "Продавец"
-            json.dump(data, open("data.json", "w"))
-        else:
-            await ans(f"Вы не отработали 50 заказов!")
-    else:
-         await ans(f"Вы уже устроины на работу!")
-                  
-@bot.on.chat_message(text=["уволиться", "Уволиться"])
-async def wrapper(ans: Message):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "rabota" ][ str( ans.from_id ) ] < "1":
-        await ans(f"Вы уволились с работы!")
-        json.dump(data, open("data.json", "w"))
-    else:
-        await ans(f"Вы без работный!")
-                  
-@bot.on.chat_message(text=["казино <sum>", "Казино <sum>"])
-async def wrapper(ans: Message, sum):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "balance" ][ str( ans.from_id ) ] < int(sum):
-        await ans(f"Ваша сумма больше баланса!")
-    else:
-        random1 = random.randint(1,5)
-        if random1 == 1:
-            await ans(f"Вы проиграли (x0)")
-            data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) - int(sum)
-            json.dump(data, open("data.json", "w"))
-        if random1 == 2:
-            await ans(f"Вы проиграли (x0)")
-            data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) - int(sum)
-            json.dump(data, open("data.json", "w"))
-        if random1 == 3:
-            await ans(f"Вы выйграли (x2)")
-            int(sum) + int(sum) *2
-            data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) + int(sum)
-            json.dump(data, open("data.json", "w"))
-        if random1 == 4:
-            await ans(f"Вы выйграли (x5)")
-            int(sum) + int(sum) *5
-            data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) + int(sum)
-            json.dump(data, open("data.json", "w"))
-        if random1 == 5:
-            await ans(f"Вы выйграли (x50)")
-            int(sum) + int(sum) *50
-            data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) + int(sum)
-            json.dump(data, open("data.json", "w"))
-
-@bot.on.chat_message(text=["стаканчик <sum> <stak>", "Стаканчик <sum> <stak>"])
-async def wrapper(ans: Message, sum, stak):
-    reg(ans)
-    data = json.load( open( "data.json", "r" ) )
-    if data[ "balance" ][ str( ans.from_id ) ] < int(sum):
-        await ans(f"Ваша сумма больше баланса!\n\nПример: (Стаканчик сумма стаканчик, стаканчик 400 3)")
-    if int(stak) > 3:
-        await ans(f"Ваш Стаканчик больше 3!\n\nПример: (Стаканчик сумма стаканчик, стаканчик 400 3)")
-    if int(stak) < 4:
-        if data[ "balance" ][ str( ans.from_id ) ] > int(sum):
-            random1 = random.randint(1,3)
-            if random1 == int(stak):
-                await ans(f"Вы угадали мячик был под {random1}! Ваша ставка умножается в 2 раза!")
-                int(sum) + int(sum) * 2
-                data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) + int(sum)
-                json.dump(data, open("data.json", "w"))
-            else:
-                await ans(f"Вы не угадали мячик был под {random1}!")
-                data["balance"][str(ans.from_id)] = int(data["balance"][str(ans.from_id)]) - int(sum)
-                json.dump(data, open("data.json", "w"))
+    if balancer == 0:
+        await ans(f"🔮 У вас нету рабов!")
+    if balancer == 1:
+        b = data[ "balancer" ][ str( ans.from_id ) 
+        c = data[ "balancer" ][ str( ans.from_id ) ] * 1,2
+        data[ "balance" ][ str( ans.from_id ) ] + c
+        data[ "balancer" ][ str( ans.from_id ) ] = b
+        await ans(f"🔮 Вы получили от 1 раба {c}₽")
+    if balancer == 2:
+        b = data[ "balancer" ][ str( ans.from_id ) 
+        c = data[ "balancer" ][ str( ans.from_id ) ] * 1,2
+        data[ "balance" ][ str( ans.from_id ) ] + c
+        data[ "balancer" ][ str( ans.from_id ) ] = b
+        await ans(f"🔮 Вы получили от {data[ 'balancer' ][ str( ans.from_id ) ]} рабов {c}₽")
+    json.dump( data, open( "data.json", "w" ) ) 
 
 bot.run_polling( skip_updates = False )
