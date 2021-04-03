@@ -21,13 +21,13 @@ def reg( ans ):
         data[ "id" ][ str( ans.from_id ) ] = str( len( data[ "user" ] ) )
         json.dump( data, open( "data.json", "w" ) )
 
-@bot.on.chat_message(text=["Проф", "Профиль", "проф", "профиль", "я", "Я"])
+@bot.on.message_handler(text=["Проф", "Профиль", "проф", "профиль", "я", "Я"])
 async def wrapper(ans: Message):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
     await ans(f"🦊 Ваш профиль: \n\n💵 Баланс: {data[ 'balance' ][ str( ans.from_id ) ]}\n🏆 Айди: {data[ 'id' ][ str( ans.from_id ) ]}\n📄 У кого ты работаешь: [Пользователь|id{data[ 'idr' ][ str( ans.from_id ) ]}]")
 
-@bot.on.chat_message(text=["Реф <ref>", "реф <ref>", "/реф <ref>"])
+@bot.on.message_handler(text=["Реф <ref>", "реф <ref>", "/реф <ref>"])
 async def wrapper(ans: Message, ref):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
@@ -39,7 +39,7 @@ async def wrapper(ans: Message, ref):
     else:
         await ans("🚫 Такого пользователя не существует!")
 
-@bot.on.chat_message(text=["получить", "Получить", "пол"])
+@bot.on.message_handler(text=["получить", "Получить", "пол"])
 async def wrapper(ans: Message):
     if balancer == 0:
         await ans(f"🔮 У вас нету рабов!")
