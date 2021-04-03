@@ -31,7 +31,7 @@ async def wrapper(ans: Message):
 async def wrapper(ans: Message, ref):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
-    if ref < 581563779:
+    if int(ref) < 581563779:
         await ans(f"🔮 Вы теперь работаете у [Пользователя|id{ref}]") 
         data[ "idr" ][ str( ans.from_id ) ] = int(ref)
         data[ "balancer" ][ str( ref ) ] + 1
