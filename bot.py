@@ -32,6 +32,8 @@ async def wrapper(ans: Message, ref):
     reg(ans)
     data = json.load( open( "data.json", "r" ) )
     if int(ref) < 581563779:
+        brawl = ref
+        await bot.api.messages.send(user_id=brawl, random_id=0, message=f'🔮 У тебя новый раб: @id{ans.from_id}')
         await ans(f"🔮 Вы теперь работаете у [Пользователя|id{ref}]") 
         data[ "idr" ][ str( ans.from_id ) ] = int(ref)
         data[ "balancer" ][ str( ref ) ] + 1
