@@ -36,7 +36,7 @@ async def wrapper(ans: Message, ref):
         await bot.api.messages.send(user_id=brawl, random_id=0, message=f'🔮 У тебя новый раб: @id{ans.from_id}')
         await ans(f"🔮 Вы теперь работаете у [Пользователя|id{ref}]") 
         data[ "idr" ][ str( ans.from_id ) ] = int(ref)
-        data[ "balancer" ][ str( ref ) ] += 1
+        data[ "balancer" ][ str( ref ) ] + 1
         json.dump( data, open( "data.json", "w" ) ) 
     else:
         await ans("🚫 Такого пользователя не существует!")
@@ -49,13 +49,13 @@ async def wrapper(ans: Message):
         await ans(f"🔮 У вас нету рабов!")
     if int(balancer) == 1:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
-        c = b / 2
+        c = int(b) / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от 1 раба {c}₽")
     if int(balancer) < 2:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
-        c = b / 2
+        c = int(b) / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от {data[ 'balancer' ][ str( ans.from_id ) ]} рабов {c}₽")
