@@ -50,13 +50,13 @@ async def wrapper(ans: Message):
     if int(balancer) == 1:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = int(b) / 2
-        data[ "balance" ][ str( ans.from_id ) ] + c
+        data[ "balance" ][ str( ans.from_id ) ] + float(c) 
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от 1 раба {c}₽")
     if int(balancer) < 2:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = int(b) / 2
-        data[ "balance" ][ str( ans.from_id ) ] + c
+        data[ "balance" ][ str( ans.from_id ) ] + float(c)
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от {data[ 'balancer' ][ str( ans.from_id ) ]} рабов {c}₽")
     json.dump( data, open( "data.json", "w" ) ) 
