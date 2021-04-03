@@ -44,13 +44,13 @@ async def wrapper(ans: Message):
     if balancer == 0:
         await ans(f"🔮 У вас нету рабов!")
     if balancer == 1:
-        b = data[ "balancer" ][ str( ans.from_id ) 
+        b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = b / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от 1 раба {c}₽")
-    if balancer == 2:
-        b = data[ "balancer" ][ str( ans.from_id ) 
+    if balancer < 2:
+        b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = b / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
         data[ "balancer" ][ str( ans.from_id ) ] = b
