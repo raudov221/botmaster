@@ -42,15 +42,16 @@ async def wrapper(ans: Message, ref):
 @bot.on.message_handler(text=["получить", "Получить", "пол"])
 async def wrapper(ans: Message):
     data = json.load( open( "data.json", "r" ) )
-    if data[ "balancer" ][ str( ans.from_id ) ] == 0:
+    balancer = data[ "balancer" ][ str( ans.from_id ) ] 
+    if int(balancer) == 0:
         await ans(f"🔮 У вас нету рабов!")
-    if data[ "balancer" ][ str( ans.from_id ) ] == 1:
+    if int(balancer) == 1:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = b / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
         data[ "balancer" ][ str( ans.from_id ) ] = b
         await ans(f"🔮 Вы получили от 1 раба {c}₽")
-    if data[ "balancer" ][ str( ans.from_id ) ] < 2:
+    if int(balancer) < 2:
         b = data[ "balancer" ][ str( ans.from_id ) ] 
         c = b / 2
         data[ "balance" ][ str( ans.from_id ) ] + c
